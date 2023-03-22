@@ -8,10 +8,13 @@ function createLi(array) {
     );
 }
 
-console.log(createLi(galleryItems));
+const result = createLi(galleryItems);
+
+const list = document.querySelector(".gallery");
+list.insertAdjacentHTML("beforeend", result);
 
 
-
+list.addEventListener("click");
 
 // <li class="gallery__item">
 //   <a class="gallery__link" href="large-image.jpg">
