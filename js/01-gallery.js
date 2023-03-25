@@ -1,42 +1,55 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-function createLi(array) {
-    return array.reduce(
-        (acc, item) =>
-        acc + 'li gallery__item = "${item.description}">${item.original}>${item.preview}</li>', ""
-    );
+console.log(galleryItems);
+
+const divRef = document.querySelector(".gallery");
+
+function createGallaryMarkup(items) {
+  return items
+  .map(
+    (item) => `<li class="gallery_item">
+    <a class="gallery_link" href="${item.original}">
+    <img
+    class="gallery_image"
+    src="${item.preview}"
+    data-source="${item.original}"
+    alt="{item.description}"
+    width=100%
+    height=100%
+    />
+    </a>
+    </li>`
+  )
+  .join("");
 }
 
-const result = createLi(galleryItems);
+const addGallaryMarkup = createGallaryMarkup(galleryItems);
 
-const list = document.querySelector(".gallery");
-list.insertAdjacentHTML("beforeend", result);
+divRef.innerHTML = addGallaryMarkup;
 
+divRef.addEventListener("click", onImageClick);
 
-list.addEventListener("click");
+function onImageClick(evt) {
+  blockStandartAction(evt);
 
-// <li class="gallery__item">
-//   <a class="gallery__link" href="large-image.jpg">
-//     <img
-//       class="gallery__image"
-//       src="small-image.jpg"
-//       data-source="large-image.jpg"
-//       alt="Image description"
-//     />
-//   </a>
-// </li>
+  if (evt.target.nodeName !== "IMG") {
+    return;
+  }
 
+  const instance = basicLightbox.create(`
+  <img src="${evt.target.dataset.source}">
+  `);
+  instance.show();
 
+  divRef.addEventListener("keydown", (evt) => {
+    if (evt.code === "Escape") {
+      instance.close();
+    }
+  });
+}
 
+function blockStandartAction(evt) {
+  evt.preventDefault();
 
-
-
-
-
-
-
-
-
-
-console.log(galleryItems);
+}
