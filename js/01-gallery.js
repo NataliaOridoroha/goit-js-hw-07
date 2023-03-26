@@ -2,9 +2,7 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
 console.log(galleryItems);
-
 const divRef = document.querySelector(".gallery");
-
 function createGallaryMarkup(items) {
   return items
   .map(
@@ -25,11 +23,8 @@ function createGallaryMarkup(items) {
 }
 
 const addGallaryMarkup = createGallaryMarkup(galleryItems);
-
 divRef.innerHTML = addGallaryMarkup;
-
 divRef.addEventListener("click", onImageClick);
-
 function onImageClick(evt) {
   blockStandartAction(evt);
 
@@ -45,6 +40,7 @@ function onImageClick(evt) {
   divRef.addEventListener("keydown", (evt) => {
     if (evt.code === "Escape") {
       instance.close();
+      divRef.removeEventListener("click", onImageClick);
     }
   });
 }
